@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "github.com/OpenSourceRobotics/api/domain";
+
+// Organization groups users and resources under a single collective identity.
+message Organization {
+  uint64 ID = 1;
+
+  // Unique organization identifier and display name.
+  string Name = 2;
+
+  // Organization description.
+  string Description = 3;
+
+  // Contact email.
+  string Email = 4;
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "github.com/OpenSourceRobotics/api/domain";
+
+
+// User is a unique identity that can perform actions.
+message User {
+  // Unique identity this user represents.
+  // This value is typically generated or provided by an external identity provider (e.g. Google, Github, Auth0, etc.).
+  string Identity = 1;
+
+  // Unique, read-friendly identifier that represents the user identity.
+  string Username = 3;
+
+  // User display name.
+  string Name = 2;
+
+  // Email associated with the user identity.
+  string Email = 4;
+}

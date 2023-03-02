@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package repository;
+
+import "google/protobuf/any.proto";
+import "domain/auth/user.proto";
+import "services/repository/filter.proto";
+import "services/repository/option.proto";
+
+option go_package = "github.com/OpenSourceRobotics/api/services/repository";
+
+// CreateRequest contains input values for the RepositoryService.Create operation.
+message CreateRequest {
+  // Entry to create.
+  google.protobuf.Any Entry = 1;
+}
+
+// CreateResponse contains output values for the RepositoryService.Create operation.
+message CreateResponse {
+  // Created entry.
+  google.protobuf.Any Entry = 1;
+}
+
+// FirstOrCreateRequest contains input values for the RepositoryService.Create operation.
+message FirstOrCreateRequest {
+  // Entry to create.
+  google.protobuf.Any Entry = 1;
+
+  // Filters used to check if the entry exists.
+  repeated Filter Filters = 2;
+}
+
+// FirstOrCreateResponse contains output values for the RepositoryService.Create operation.
+message FirstOrCreateResponse {
+  // Created or found entry.
+  google.protobuf.Any entity = 1;
+}
+
+// UpdateRequest contains input values for the RepositoryService.Update operation.
+message UpdateRequest {
+  // Set of fields and values to update matched entries with.
+  map<string, google.protobuf.Any> Data = 1;
+
+  // Filters used to match entries to update.
+  repeated Filter Filters = 2;
+}
+
+// UpdateResponse contains output values for the RepositoryService.Update operation.
+message UpdateResponse {}
+
+// DeleteRequest contains input values for the RepositoryService.Delete operation.
+message DeleteRequest {
+  // Filters used to match entries to delete.
+  repeated Filter Filters = 1;
+}
+
+// DeleteResponse contains output values for the RepositoryService.Delete operation.
+message DeleteResponse {}
+
+// FindRequest contains input values for the RepositoryService.Find operation.
+message FindRequest {
+  // Options used to match entries.
+  repeated Option Options = 1;
+}
+
+// FindResponse contains output values for the RepositoryService.Find operation.
+message FindResponse {
+  // List of matched entries.
+  repeated google.protobuf.Any Entries = 1;
+}
+
+// FindOneRequest contains input values for the RepositoryService.FindOne operation.
+message FindOneRequest {
+  // Filters used to match entries.
+  repeated Filter Filters = 1;
+}
+
+// FindOneResponse contains output values for the RepositoryService.FindOne operation.
+message FindOneResponse {
+  // Matched entry.
+  google.protobuf.Any Entry = 1;
+}
+
+// LastRequest contains input values for the RepositoryService.Last operation.
+message LastRequest {
+  // Filters used to match entries.
+  repeated Filter Filters = 1;
+}
+
+// LastResponse contains output values for the RepositoryService.Last operation.
+message LastResponse {
+  // Matched entry.
+  google.protobuf.Any output = 1;
+}
+
+// CountRequest contains input values for the RepositoryService.Count operation.
+message CountRequest {
+  // Filters used to match entries to count.
+  repeated Filter Filters = 1;
+}
+
+// CountResponse contains output values for the RepositoryService.Count operation.
+message CountResponse {
+  // Number of entries found.
+  uint64 Count = 1;
+}
+
+// RepositoryService performs model CRUD operations in a persistence layer.
+service RepositoryService {
+  // Creates a new entry.
+  rpc Create(CreateRequest) returns (CreateResponse) {}
+  // Inserts a new entry if the provided filters don't find an existing record.
+  // It returns the existing record if found.
+  rpc FirstOrCreate(FirstOrCreateRequest) returns (FirstOrCreateResponse) {}
+  // Updates all entries that match the provided filters with the given data.
+  rpc Update(UpdateRequest) returns (UpdateResponse) {}
+  // Removes all entries that match the provided filters.
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {}
+  // Returns a list of entries that match the provided filters.
+  rpc Find(FindRequest) returns (FindResponse) {}
+  // Returns the first entry that matches the provided filters.
+  rpc FindOne(FindOneRequest) returns (FindOneResponse) {}
+  // Returns the last created entry.
+  rpc Last(LastRequest) returns (LastResponse) {}
+  // Returns the number of entries that match the provided filters.
+  rpc Count(CountRequest) returns (CountResponse) {}
+}
