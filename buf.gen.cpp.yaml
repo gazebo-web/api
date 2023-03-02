@@ -1,0 +1,5 @@
+# Buf is a building tool for generating proto messages and grpc services in different languages.
+version: v1
+plugins:
+  - remote: buf.build/protocolbuffers/plugins/cpp
+    out: ./cpp
